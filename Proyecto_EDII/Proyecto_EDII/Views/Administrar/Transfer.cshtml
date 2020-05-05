@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Transfer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Transferir unidades</h2>
+
+<div>
+
+    @using (Html.BeginForm("Transfer", "Administrar"))
+    {
+        <p>ID Sucursal origen</p>
+        <input type="number" name="id" />
+
+        <p>ID Sucursal destino</p>
+        <input type="number" name="id2" />
+
+        <p>ID Producto</p>
+        <input type="number" name="idproducto" />
+
+        <p>Cantidad</p>
+        <input type="number" name="qty" />
+
+        <input type="submit" value="Transferir" class="btn btn-default" />
+    }
+
+</div>
+
+
