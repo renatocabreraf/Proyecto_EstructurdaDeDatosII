@@ -163,6 +163,7 @@
     <Compile Include="Interfaces\ICreateFixedSizeText.cs" />
     <Compile Include="Interfaces\IFixedSizeText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SDES.cs" />
     <Compile Include="Tree\ByteGenerator.cs" />
     <Compile Include="Tree\Header.cs" />
     <Compile Include="Tree\Node.cs" />
