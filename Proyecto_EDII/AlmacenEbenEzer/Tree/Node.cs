@@ -8,6 +8,7 @@ using AlmacenEbenEzer.Interfaces;
 
 namespace AlmacenEbenEzer.Tree
 {
+
 	public class Node<T> where T : IComparable, IFixedSizeText
 	{
 		internal List<T> Data { get; set; }
@@ -17,10 +18,7 @@ namespace AlmacenEbenEzer.Tree
 		internal int Order { get; set; }
 		internal ICreateFixedSizeText<T> createFixedSizeText = null;
 
-		public Node()
-		{
-
-		}
+		public Node() { }
 
 		internal Node(int order, int ID, int father, ICreateFixedSizeText<T> createFixedSizeText)
 		{
@@ -76,18 +74,21 @@ namespace AlmacenEbenEzer.Tree
 
 			if (Father == Util.NullPointer)
 			{
-				InTextSize += (Data[0].FixedSize + 1) * ((4 * (Order - 1)) / 3); //Data
-				InTextSize += (Util.IntegerSize + 1) * ((4 * (Order - 1)) / 3) + (Util.IntegerSize + 1);    // Children
+				int iData = (Data[0].FixedSize + 1) * ((4 * (Order - 1)) / 3); //Data
+				int iChildren = (Util.IntegerSize + 1) * ((4 * (Order - 1)) / 3) + (Util.IntegerSize + 1);    // Children
+				InTextSize += iData;
+				InTextSize += iChildren;
 			}
 			else
 			{
-				InTextSize += (Data[0].FixedSize + 1) * (Order - 1);
-				InTextSize += (Util.IntegerSize + 1) * Order;
+				int iData = (Data[0].FixedSize + 1) * (Order - 1);
+				int iChildren = (Util.IntegerSize + 1) * Order;
+				InTextSize += iData;
+				InTextSize += iChildren;
 			}
 			InTextSize += 2; // \r\n
 
 			return InTextSize;
-
 		}
 
 		public int FixedSizeText()
