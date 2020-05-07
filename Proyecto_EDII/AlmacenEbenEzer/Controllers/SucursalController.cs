@@ -29,10 +29,10 @@ namespace AlmacenEbenEzer.Controllers
         /// Devuelve la vista para crear sucursal
         /// </summary>
         /// <returns></returns>
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
         // POST: Sucursal/Create
         /// <summary>
@@ -45,6 +45,7 @@ namespace AlmacenEbenEzer.Controllers
         {
             if (ModelState.IsValid)
             {
+                Data.Instance.sucursalesTree.Add(sucursal);
                 Data.Instance.sucursales.Add(sucursal);
                 //cifrar información
                 sucursal.ID = int.Parse(Data.Instance.cipherMethods.cipher(sucursal.ID.ToString()));

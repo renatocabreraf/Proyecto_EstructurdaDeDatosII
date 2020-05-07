@@ -20,6 +20,9 @@ namespace AlmacenEbenEzer
 			}
 		}
 
+		public Tree<Sucursal> sucursalesTree = new Tree<Sucursal>(5, @"C:\Users\Renato\Desktop\Sucursales.txt", new CreateSucursal());
+
+
 		public SDES cipherMethods = new SDES();
 		//listas para pruebas temporales 
 		public List<Sucursal> sucursales = new List<Sucursal>();

@@ -114,12 +114,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AlmacenEbenEzer.Controllers.SucursalController.Create">
-            <summary>
-            Devuelve la vista para crear sucursal
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:AlmacenEbenEzer.Controllers.SucursalController.Create(AlmacenEbenEzer.Models.Sucursal)">
             <summary>
             Crea una sucursal y la inserta en el arbol corresondiente
