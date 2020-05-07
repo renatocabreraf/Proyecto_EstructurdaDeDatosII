@@ -13,6 +13,8 @@ namespace AlmacenEbenEzer
         string[,] SBox0 = new string[4, 4];
         string[,] SBox1 = new string[4, 4];
 
+        public SDES() { }
+
         public SDES(string keyString)
         {
             //S0

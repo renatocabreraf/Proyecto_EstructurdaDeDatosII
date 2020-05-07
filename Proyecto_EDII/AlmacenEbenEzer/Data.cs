@@ -8,8 +8,8 @@ using AlmacenEbenEzer.Tree;
 
 namespace AlmacenEbenEzer
 {
-    public class Data
-    {
+	public class Data
+	{
 		private static Data instance = null;
 		public static Data Instance
 		{
@@ -19,7 +19,7 @@ namespace AlmacenEbenEzer
 				return instance;
 			}
 		}
-		
+
 
 		public Tree<Sucursal> sucursalesTree = new Tree<Sucursal>();
 
