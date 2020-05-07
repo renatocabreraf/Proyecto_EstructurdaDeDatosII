@@ -17,49 +17,9 @@ namespace AlmacenEbenEzer.Controllers
         /// <summary>
         /// Retorna la lista de Sucursales existentes
         /// </summary>
-        /// <returns></returns>        
+        /// <returns></returns>
         public ActionResult Index()
         {
-            string basePath = string.Format(@"{0}Arboles\", AppContext.BaseDirectory);
-
-            if (Data.Instance.blockSucursal == false)
-            {
-                DirectoryInfo directory = Directory.CreateDirectory(basePath);
-
-                var buffer = new byte[3];//contiene bytes 1 o 0, indicando si los arboles estan inicializados o no 
-                using (var fs = new FileStream(basePath + @"init.txt", FileMode.OpenOrCreate))
-                {
-                    fs.Read(buffer, 0, 3);
-                }
-
-                //pos0 = 0 el arbol no ha sido inicializado. pos0 = 1 el arbol ya ha sido creado y tiene datos. 
-                if (buffer[0] == 0)
-                {
-                    Data.Instance.sucursalesTree = new Tree.Tree<Sucursal>(
-                    7,
-                    basePath + @"sucursales.txt",
-                    new CreateSucursal());
-                    buffer[0] = 1;
-
-                    //cambiar el estado del archivo a creado. byte = 1.
-                    using (var fs = new FileStream(basePath + @"init.txt", FileMode.OpenOrCreate))
-                    {
-                        //fs.Seek(0, SeekOrigin.Begin);
-                        fs.Write(buffer, 0, 3);
-                    }
-                }
-                else
-                {
-                    Data.Instance.sucursalesTree = new Tree.Tree<Sucursal>(
-                    7,
-                    basePath + @"sucursales.txt",
-                    new CreateSucursal(),
-                    1); // 1 indica que ya ha sido creado el arbol 
-                }
-
-                Data.Instance.blockSucursal = true;
-            }
-
             return View(Data.Instance.sucursales);
         }
 
@@ -86,7 +46,11 @@ namespace AlmacenEbenEzer.Controllers
             if (ModelState.IsValid)
             {
                 Data.Instance.sucursales.Add(sucursal);
-                Data.Instance.sucursalesTree.Add(sucursal);
+                //cifrar información
+                sucursal.ID = int.Parse(Data.Instance.cipherMethods.cipher(sucursal.ID.ToString()));
+                sucursal.Nombre = Data.Instance.cipherMethods.cipher(sucursal.Nombre);
+                sucursal.Direccion = Data.Instance.cipherMethods.cipher(sucursal.Direccion);
+
                 return RedirectToAction("Index");
             }
 

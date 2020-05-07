@@ -112,7 +112,7 @@
             <summary>
             Retorna la lista de Sucursales existentes
             </summary>
-            <returns></returns>        
+            <returns></returns>
         </member>
         <member name="M:AlmacenEbenEzer.Controllers.SucursalController.Create">
             <summary>
@@ -236,7 +236,6 @@
             </summary>
             <param name="Order"></param>
             <param name="Path"></param>
-            <param name="createFixedSizeText"></param>
         </member>
         <member name="M:AlmacenEbenEzer.Tree.Tree`1.#ctor(System.Int32,System.String,AlmacenEbenEzer.Interfaces.ICreateFixedSizeText{`0},System.Int32)">
             <summary>
@@ -245,7 +244,6 @@
             <param name="Order"></param>
             <param name="Path"></param>
             <param name="createFixedSizeText"></param>
-            <param name="c"></param>
         </member>
     </members>
 </doc>

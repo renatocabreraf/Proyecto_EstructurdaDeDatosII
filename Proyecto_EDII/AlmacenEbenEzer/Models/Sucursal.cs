@@ -14,17 +14,17 @@ namespace AlmacenEbenEzer.Models
 		/// <summary>
 		/// ID de la sucursal perteneciente al almacen
 		/// </summary>
-        public int ID { get; set; }
+		public int ID { get; set; }
 
 		/// <summary>
 		/// Nombre de la sucursal
 		/// </summary>
-        public string Nombre { get; set; }
+		public string Nombre { get; set; }
 
 		/// <summary>
 		/// Dirección de ubicación de la sucursal
 		/// </summary>
-        public string Direccion { get; set; }
+		public string Direccion { get; set; }
 
 		/// <summary>
 		/// Método para comparar sucursales
@@ -49,8 +49,8 @@ namespace AlmacenEbenEzer.Models
 		public string ToFixedSizeString()
 		{
 			return $"{ID.ToString("0000000000;-0000000000")}~" +
-				$"{string.Format("{0,-25}", Nombre)}~" +
-				$"{string.Format("{0,-25}", Direccion)}" ;
+				$"{string.Format("{0,-25}", Nombre)}" +
+				$"{string.Format("{0,-25}", Direccion)}";
 		}
 
 		/// <summary>

@@ -20,12 +20,7 @@ namespace AlmacenEbenEzer
 			}
 		}
 
-
-		public Tree<Sucursal> sucursalesTree = new Tree<Sucursal>();
-
-		//variables de bloqueo de arboles
-		public bool blockSucursal = false;
-
+		public SDES cipherMethods = new SDES();
 		//listas para pruebas temporales 
 		public List<Sucursal> sucursales = new List<Sucursal>();
 		public List<Producto> productos = new List<Producto>();
