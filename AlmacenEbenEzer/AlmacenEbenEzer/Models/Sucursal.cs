@@ -9,22 +9,22 @@ namespace AlmacenEbenEzer.Models
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Sucursal : IComparable, IFixedSizeText
-    {
+	public class Sucursal : IComparable, IFixedSizeText
+	{
 		/// <summary>
 		/// ID de la sucursal perteneciente al almacen
 		/// </summary>
-        public int ID { get; set; }
+		public int ID { get; set; }
 
 		/// <summary>
 		/// Nombre de la sucursal
 		/// </summary>
-        public string Nombre { get; set; }
+		public string Nombre { get; set; }
 
 		/// <summary>
 		/// Dirección de ubicación de la sucursal
 		/// </summary>
-        public string Direccion { get; set; }
+		public string Direccion { get; set; }
 
 		/// <summary>
 		/// Método para comparar sucursales
@@ -40,7 +40,7 @@ namespace AlmacenEbenEzer.Models
 		/// <summary>
 		/// Definir el tamaño de escritura en el archivo del arbol B*
 		/// </summary>
-		public int FixedSize { get { return 99; } }
+		public int FixedSize { get { return 62; } }
 
 		/// <summary>
 		/// Cambia las propiedades de como se mostrarán los atributos del modelo
@@ -49,8 +49,8 @@ namespace AlmacenEbenEzer.Models
 		public string ToFixedSizeString()
 		{
 			return $"{ID.ToString("0000000000;-0000000000")}~" +
-				$"{string.Format("{0,-25}", Nombre)}"+
-				$"{string.Format("{0,-25}", Direccion)}" ;
+				$"{string.Format("{0,-25}", Nombre)}~" +
+				$"{string.Format("{0,-25}", Direccion)}";
 		}
 
 		/// <summary>

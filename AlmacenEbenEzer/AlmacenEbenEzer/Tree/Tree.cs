@@ -1,4 +1,5 @@
 ﻿using AlmacenEbenEzer.Interfaces;
+using AlmacenEbenEzer.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,13 +17,18 @@ namespace AlmacenEbenEzer.Tree
 		internal int LastPosition { get; set; }
 		internal FileStream File { get; set; }
 
+		List<T> elements = new List<T>();
+
 		private ICreateFixedSizeText<T> createFixedSizeText = null;
+
+		public Tree() { }
 
 		/// <summary>
 		/// To create a new file. Creates a Header and the Root node
 		/// </summary>
 		/// <param name="Order"></param>
 		/// <param name="Path"></param>
+		/// <param name="createFixedSizeText"></param>
 		public Tree(int Order, string Path, ICreateFixedSizeText<T> createFixedSizeText)
 		{
 			this.createFixedSizeText = createFixedSizeText;
@@ -46,6 +52,7 @@ namespace AlmacenEbenEzer.Tree
 		/// <param name="Order"></param>
 		/// <param name="Path"></param>
 		/// <param name="createFixedSizeText"></param>
+		/// <param name="c"></param>
 		public Tree(int Order, string Path, ICreateFixedSizeText<T> createFixedSizeText, int c)
 		{
 			this.Order = Order;
@@ -431,5 +438,133 @@ namespace AlmacenEbenEzer.Tree
 
 			return false;
 		}
+
+		#region Orders
+
+		private void WriteNode(Node<T> node, StringBuilder text)
+		{
+			Sucursal obj = new Sucursal();
+
+			for (int i = 0; i < node.Data.Count; i++)
+			{
+				if (node.Data[i].ToFixedSizeString() != obj.ToFixedSizeString()) // if not null
+				{
+					text.Append(node.Data[i].ToString());
+					text.Append("---");
+				}
+				else
+				{
+					return;
+				}
+			}
+		}
+
+		private void GetNodes(int ActualPosition)
+		{
+			Sucursal obj = new Sucursal();
+
+			if (ActualPosition == Util.NullPointer)
+			{
+				return;
+			}
+			Node<T> node = new Node<T>();
+
+			node = node.ReadNode(this.Path, this.Order, this.Root, ActualPosition, this.createFixedSizeText);
+
+			for (int i = 0; i < node.Data.Count; i++)
+			{
+				GetNodes(node.Children[i]);
+				if ((i < node.Data.Count) && (node.Data[i].ToFixedSizeString() != obj.ToFixedSizeString()))
+				{
+					elements.Add(node.Data[i]);
+				}
+			}
+		}
+
+		public List<T> ToList()
+		{
+			elements = new List<T>();
+			GetNodes(this.Root);
+			return elements;
+		}
+
+
+		private void PreOrder(int ActualPosition, StringBuilder text)
+		{
+			if (ActualPosition == Util.NullPointer)
+			{
+				return;
+			}
+			Node<T> node = new Node<T>();
+			node.ReadNode(this.Path, this.Order, this.Root, ActualPosition, this.createFixedSizeText);
+
+			WriteNode(node, text);
+
+			for (int i = 0; i < node.Children.Count; i++)
+			{
+				PreOrder(node.Children[i], text);
+			}
+		}
+
+		public string PrintPreOrder()
+		{
+			StringBuilder text = new StringBuilder();
+			PreOrder(this.Root, text);
+			return text.ToString();
+		}
+
+		private void InOrder(int ActualPosition, StringBuilder text)
+		{
+			Sucursal obj = new Sucursal();
+
+			if (ActualPosition == Util.NullPointer)
+			{
+				return;
+			}
+			Node<T> node = new Node<T>();
+
+			node.ReadNode(this.Path, this.Order, this.Root, ActualPosition, this.createFixedSizeText);
+
+			for (int i = 0; i < node.Data.Count; i++)
+			{
+				InOrder(node.Children[i], text);
+				if ((i < node.Data.Count) && (node.Data[i].ToFixedSizeString() != obj.ToFixedSizeString()))
+				{
+					text.AppendLine(node.Data[i].ToString());
+					text.AppendLine("---");
+				}
+			}
+		}
+
+		public string PrintInOrder()
+		{
+			StringBuilder text = new StringBuilder();
+			InOrder(this.Root, text);
+			return text.ToString();
+		}
+
+		private void PostOrder(int ActualPosition, StringBuilder text)
+		{
+			if (ActualPosition == Util.NullPointer)
+			{
+				return;
+			}
+			Node<T> node = new Node<T>();
+			node.ReadNode(this.Path, this.Order, this.Root, ActualPosition, this.createFixedSizeText);
+			for (int i = 0; i < node.Children.Count; i++)
+			{
+				PostOrder(node.Children[i], text);
+			}
+			WriteNode(node, text);
+		}
+
+		public string PrintPostOrder()
+		{
+			StringBuilder text = new StringBuilder();
+			PostOrder(this.Root, text);
+			return text.ToString();
+		}
+		#endregion
+
 	}
 }

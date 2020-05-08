@@ -8,8 +8,8 @@ using AlmacenEbenEzer.Tree;
 
 namespace AlmacenEbenEzer
 {
-    public class Data
-    {
+	public class Data
+	{
 		private static Data instance = null;
 		public static Data Instance
 		{
@@ -20,10 +20,12 @@ namespace AlmacenEbenEzer
 			}
 		}
 
-		//Directory.GetParent(Directory.GetParent(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)).FullName).FullName + @"\Sucursales.txt"
-		//public Tree<Sucursal> sucursalesTree = new Tree<Sucursal>(7, "", new CreateSucursal());
-		
-		public SDES cipherMethods = new SDES();
+
+		public Tree<Sucursal> sucursalesTree = new Tree<Sucursal>();
+
+		//variables de bloqueo de arboles
+		public bool blockSucursal = false;
+
 		//listas para pruebas temporales 
 		public List<Sucursal> sucursales = new List<Sucursal>();
 		public List<Producto> productos = new List<Producto>();
