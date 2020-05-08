@@ -21,50 +21,58 @@ namespace AlmacenEbenEzer.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            //string basePath = string.Format(@"{0}Arboles\", AppContext.BaseDirectory);
+            string basePath = string.Format(@"{0}Arboles\", AppContext.BaseDirectory);
 
-            //if (Data.Instance.blockSucursal == false)
-            //{
-            //    DirectoryInfo directory = Directory.CreateDirectory(basePath);
+            if (Data.Instance.blockProducto == false)
+            {
+                DirectoryInfo directory = Directory.CreateDirectory(basePath);
 
-            //    var buffer = new byte[3];//contiene bytes 1 o 0, indicando si los arboles estan inicializados o no 
-            //    using (var fs = new FileStream(basePath + @"init.txt", FileMode.OpenOrCreate))
-            //    {
-            //        fs.Read(buffer, 0, 3);
-            //    }
+                var buffer = new byte[3];//contiene bytes 1 o 0, indicando si los arboles estan inicializados o no 
+                using (var fs = new FileStream(basePath + @"init.txt", FileMode.OpenOrCreate))
+                {
+                    fs.Read(buffer, 0, 3);
+                }
 
-            //    //pos0 = 0 el arbol no ha sido inicializado. pos0 = 1 el arbol ya ha sido creado y tiene datos. 
-            //    if (buffer[1] == 0)
-            //    {
-            //        Data.Instance.productosTree = new Tree.Tree<Producto>(
-            //        7,
-            //        basePath + @"productos.txt",
-            //        new CreateProducto());
-            //        buffer[1] = 1;
+                //pos0 = 0 el arbol no ha sido inicializado. pos0 = 1 el arbol ya ha sido creado y tiene datos. 
+                if (buffer[1] == 0)
+                {
+                    Data.Instance.productosTree = new Tree.Tree<Producto>(
+                    7,
+                    basePath + @"productos.txt",
+                    new CreateProducto());
+                    buffer[1] = 1;
 
-            //        //cambiar el estado del archivo a creado. byte = 1.
-            //        using (var fs = new FileStream(basePath + @"init.txt", FileMode.OpenOrCreate))
-            //        {
-            //            //fs.Seek(0, SeekOrigin.Begin);
-            //            fs.Write(buffer, 0, 3);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        Data.Instance.productosTree = new Tree.Tree<Producto>(
-            //        7,
-            //        basePath + @"productos.txt",
-            //        new CreateProducto(),
-            //        1); // 1 indica que ya ha sido creado el arbol 
-            //    }
+                    //cambiar el estado del archivo a creado. byte = 1.
+                    using (var fs = new FileStream(basePath + @"init.txt", FileMode.OpenOrCreate))
+                    {
+                        //fs.Seek(0, SeekOrigin.Begin);
+                        fs.Write(buffer, 0, 3);
+                    }
+                }
+                else
+                {
+                    Data.Instance.productosTree = new Tree.Tree<Producto>(
+                    7,
+                    basePath + @"productos.txt",
+                    new CreateProducto(),
+                    1); // 1 indica que ya ha sido creado el arbol 
+                }
 
-            //    Data.Instance.blockSucursal = true;
-            //}
+                Data.Instance.blockProducto = true;
+            }
 
-            //List<Sucursal> response = Data.Instance.sucursalesTree.ToList();
-            //response.Sort();
-            //return View(response);
-            return View(Data.Instance.productos);
+            List<Producto> response = new List<Producto>();
+            List<Producto> temp = Data.Instance.productosTree.ToList();
+
+            for (int i = 0; i < temp.Count; i++)
+            {
+                if (temp[i].ID != 0)
+                {
+                    response.Add(temp[i]);
+                }
+            }
+            response.Sort();
+            return View(response);
         }
 
         // GET: Producto/Create
@@ -88,8 +96,7 @@ namespace AlmacenEbenEzer.Controllers
         {
             if (ModelState.IsValid)
             {
-                Data.Instance.productos.Add(producto);
-                //Data.Instance.sucursalesTree.Add(sucursal);
+                Data.Instance.productosTree.Add(producto);
                 return RedirectToAction("Index");
             }
 
@@ -108,7 +115,7 @@ namespace AlmacenEbenEzer.Controllers
             using (var reader = new StreamReader(file.InputStream))
             {
                 while (reader.Peek() >= 0)
-                    Data.Instance.productos.Add(readProducto(reader.ReadLine()));
+                    Data.Instance.productosTree.Add(readProducto(reader.ReadLine()));
             }
 
             return RedirectToAction("Index");

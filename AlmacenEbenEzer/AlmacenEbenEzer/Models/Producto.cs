@@ -30,11 +30,11 @@ namespace AlmacenEbenEzer.Models
 
         public int CompareTo(object obj)
         {
-            var s2 = (Sucursal)obj;
+            var s2 = (Producto)obj;
             return ID.CompareTo(s2.ID);
         }
 
-        public int FixedSize { get { return 62; } }
+        public int FixedSize { get { return 45; } }
 
         public string ToFixedSizeString()
         {
