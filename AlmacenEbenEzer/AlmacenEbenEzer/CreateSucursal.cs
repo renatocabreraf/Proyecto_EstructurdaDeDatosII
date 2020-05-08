@@ -14,7 +14,8 @@ namespace AlmacenEbenEzer
 			Sucursal ob = new Sucursal();
 			ob.ID = Convert.ToInt32(FixedSizeText.Substring(0, 10));
 			ob.Nombre = Convert.ToString(FixedSizeText.Substring(11, 25)).Trim();
-			ob.Direccion = Convert.ToString(FixedSizeText.Substring(26, 25)).Trim();
+			ob.Direccion = Convert.ToString(FixedSizeText.Substring(37, 25)).Trim();
+
 			return ob;
 		}
 

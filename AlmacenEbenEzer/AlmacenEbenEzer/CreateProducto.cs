@@ -15,6 +15,7 @@ namespace AlmacenEbenEzer
 			ob.ID = Convert.ToInt32(FixedSizeText.Substring(0, 10));
 			ob.Nombre = Convert.ToString(FixedSizeText.Substring(11, 25)).Trim();
 			ob.Precio = Convert.ToDecimal(FixedSizeText.Substring(37, 10));
+
 			return ob;
 		}
 

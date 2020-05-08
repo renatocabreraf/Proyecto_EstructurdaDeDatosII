@@ -37,7 +37,7 @@ namespace AlmacenEbenEzer.Controllers
                 if (buffer[1] == 0)
                 {
                     Data.Instance.productosTree = new Tree.Tree<Producto>(
-                    7,
+                    5,
                     basePath + @"productos.txt",
                     new CreateProducto());
                     buffer[1] = 1;
@@ -52,7 +52,7 @@ namespace AlmacenEbenEzer.Controllers
                 else
                 {
                     Data.Instance.productosTree = new Tree.Tree<Producto>(
-                    7,
+                    5,
                     basePath + @"productos.txt",
                     new CreateProducto(),
                     1); // 1 indica que ya ha sido creado el arbol 
@@ -129,17 +129,18 @@ namespace AlmacenEbenEzer.Controllers
         /// <returns></returns>       
         public ActionResult Edit(int? id)
         {
-            //Producto producto = null;
-            ////muestra de como funcionaría volver a cargar los datos en el form
-            //for (int i = 0; i < Data.Instance.productos.Count; i++)
-            //{
-            //    if (Data.Instance.productos[i].ID == id)
-            //    {
-            //        producto = Data.Instance.productos[i];
-            //    }
-            //}
-            //// return View(producto);
-            return View();
+            Producto producto = new Producto();
+            List<Producto> elements = Data.Instance.productosTree.ToList();
+
+            for (int i = 0; i < elements.Count; i++)
+            {
+                if (elements[i].ID == id)
+                {
+                    producto = elements[i];
+                }
+            }
+
+            return View(producto);
         }
 
         // POST: Producto/Edit/5
@@ -153,9 +154,18 @@ namespace AlmacenEbenEzer.Controllers
         {
             if (ModelState.IsValid)
             {
-                //db.Entry(movie).State = EntityState.Modified;
-                //db.SaveChanges();
+                Producto auxiliar = new Producto();
 
+                List<Producto> elements = Data.Instance.productosTree.ToList();
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    if (elements[i].ID == producto.ID)
+                    {
+                        auxiliar = elements[i];
+                    }
+                }
+
+                Data.Instance.productosTree.UpDate(auxiliar, producto);
                 return RedirectToAction("Index");
             }
             return View(producto);

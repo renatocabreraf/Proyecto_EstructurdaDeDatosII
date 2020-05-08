@@ -16,9 +16,10 @@
     <p>Ingresar productos por medio de .CSV</p>
     @using (Html.BeginForm("addFile", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        <input type="file" name="file"  />
+        <input type="file" name="file" class="form-control" />
+        <br />
         <input type="submit" value="Subir" class="btn btn-default" />
-    }    
+    }
     <br />
     <br />
 </div>
@@ -56,6 +57,3 @@
     }
 
 </table>
-
-
-

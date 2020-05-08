@@ -514,6 +514,33 @@ namespace AlmacenEbenEzer.Tree
 			return text.ToString();
 		}
 
+		private void search(int ActualPosition, T data, T newData)
+		{
+
+			if (ActualPosition == Util.NullPointer)
+			{
+				return;
+			}
+			Node<T> node = new Node<T>();
+
+			node = node.ReadNode(this.Path, this.Order, this.Root, ActualPosition, this.createFixedSizeText);
+
+			for (int i = 0; i < node.Data.Count; i++)
+			{
+				GetNodes(node.Children[i]);
+				if (node.Data[i].ToString() == data.ToString())
+				{
+					node.Data[i] = newData;
+					node.WriteNodeOnDisk(this.Path, this.Root);
+				}
+			}
+		}
+
+		public void UpDate(T data, T newData)
+		{
+			search(this.Root, data, newData);
+		}
+
 		private void InOrder(int ActualPosition, StringBuilder text)
 		{
 			Sucursal obj = new Sucursal();
