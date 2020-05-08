@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using AlmacenEbenEzer.Models;
@@ -60,7 +61,16 @@ namespace AlmacenEbenEzer.Controllers
                 Data.Instance.blockSucursal = true;
             }
 
-            List<Sucursal> response = Data.Instance.sucursalesTree.ToList();
+            List<Sucursal> response = new List<Sucursal>();
+            List<Sucursal> temp = Data.Instance.sucursalesTree.ToList();
+
+            for (int i = 0; i < temp.Count; i++)
+            {
+                if (temp[i].ID != 0)
+                {
+                    response.Add(temp[i]);
+                }
+            }
             response.Sort();
             return View(response);
         }

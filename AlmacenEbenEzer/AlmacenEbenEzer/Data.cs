@@ -23,6 +23,8 @@ namespace AlmacenEbenEzer
 
 		public Tree<Sucursal> sucursalesTree = new Tree<Sucursal>();
 
+		public Tree<Producto> productosTree = new Tree<Producto>();
+
 		//variables de bloqueo de arboles
 		public bool blockSucursal = false;
 

@@ -1,11 +1,12 @@
-﻿using AlmacenEbenEzer.Interfaces;
-using AlmacenEbenEzer.Models;
+﻿
+using AlmacenEbenEzer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using AlmacenEbenEzer.Models;
 
 namespace AlmacenEbenEzer.Tree
 {
@@ -461,7 +462,6 @@ namespace AlmacenEbenEzer.Tree
 
 		private void GetNodes(int ActualPosition)
 		{
-			Sucursal obj = new Sucursal();
 
 			if (ActualPosition == Util.NullPointer)
 			{
@@ -474,10 +474,7 @@ namespace AlmacenEbenEzer.Tree
 			for (int i = 0; i < node.Data.Count; i++)
 			{
 				GetNodes(node.Children[i]);
-				if ((i < node.Data.Count) && (node.Data[i].ToFixedSizeString() != obj.ToFixedSizeString()))
-				{
-					elements.Add(node.Data[i]);
-				}
+				elements.Add(node.Data[i]);
 			}
 		}
 
@@ -485,6 +482,7 @@ namespace AlmacenEbenEzer.Tree
 		{
 			elements = new List<T>();
 			GetNodes(this.Root);
+
 			return elements;
 		}
 
