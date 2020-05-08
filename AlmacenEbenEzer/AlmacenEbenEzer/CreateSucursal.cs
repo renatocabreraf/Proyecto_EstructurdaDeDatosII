@@ -7,25 +7,25 @@ using AlmacenEbenEzer.Interfaces;
 
 namespace AlmacenEbenEzer
 {
-	public class CreateProducto : ICreateFixedSizeText<Producto>
+	public class CreateSucursal : ICreateFixedSizeText<Sucursal>
 	{
-		public Producto Create(string FixedSizeText)
+		public Sucursal Create(string FixedSizeText)
 		{
-			Producto ob = new Producto();
+			Sucursal ob = new Sucursal();
 			ob.ID = Convert.ToInt32(FixedSizeText.Substring(0, 10));
 			ob.Nombre = Convert.ToString(FixedSizeText.Substring(11, 25)).Trim();
-			ob.Precio = Convert.ToDecimal(FixedSizeText.Substring(37, 10));
+			ob.Direccion = Convert.ToString(FixedSizeText.Substring(37, 25)).Trim();
 			return ob;
 		}
 
-		public Producto CreateNull()
+		public Sucursal CreateNull()
 		{
-			Producto producto = new Producto();
-			producto.ID = 0;
-			producto.Nombre = "";
-			producto.Precio = 0;
+			Sucursal sucursal = new Sucursal();
+			sucursal.ID = 0;
+			sucursal.Nombre = "";
+			sucursal.Direccion = "";
 
-			return producto;
+			return sucursal;
 		}
 	}
 }
