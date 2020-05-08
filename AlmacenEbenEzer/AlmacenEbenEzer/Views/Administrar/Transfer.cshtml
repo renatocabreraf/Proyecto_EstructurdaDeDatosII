@@ -11,19 +11,18 @@
     @using (Html.BeginForm("Transfer", "Administrar"))
     {
         <p>ID Sucursal origen</p>
-        <input type="number" name="id" />
+        <input type="number" name="id" class="form-control" />
 
         <p>ID Sucursal destino</p>
-        <input type="number" name="id2" />
+        <input type="number" name="id2" class="form-control" />
 
         <p>ID Producto</p>
-        <input type="number" name="idproducto" />
+        <input type="number" name="idproducto" class="form-control" />
 
         <p>Cantidad</p>
-        <input type="number" name="qty" />
-
+        <input type="number" name="qty" class="form-control" />
+        <br />
         <input type="submit" value="Transferir" class="btn btn-default" />
     }
 
 </div>
-
