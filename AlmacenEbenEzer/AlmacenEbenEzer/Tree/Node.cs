@@ -17,7 +17,10 @@ namespace AlmacenEbenEzer.Tree
 		internal int Order { get; set; }
 		internal ICreateFixedSizeText<T> createFixedSizeText = null;
 
-		public Node() { }
+		public Node()
+		{
+
+		}
 
 		internal Node(int order, int ID, int father, ICreateFixedSizeText<T> createFixedSizeText)
 		{
@@ -88,6 +91,7 @@ namespace AlmacenEbenEzer.Tree
 			InTextSize += 2; // \r\n
 
 			return InTextSize;
+
 		}
 
 		public int FixedSizeText()
@@ -95,15 +99,34 @@ namespace AlmacenEbenEzer.Tree
 			return FixedSize(this.Father);
 		}
 
+		private int FixedSizeSeek()
+		{
+			int InTextSize = 0;
+
+			InTextSize += Util.IntegerSize + 1; // Posición
+			InTextSize += Util.IntegerSize + 1; // Padre
+
+
+			int iData = (Data[0].FixedSize + 1) * (Order - 1);
+			int iChildren = (Util.IntegerSize + 1) * Order;
+			InTextSize += iData;
+			InTextSize += iChildren;
+
+			InTextSize += 2; // \r\n
+
+			return InTextSize;
+		}
 		private int SeekPosition(int Root)
 		{
 			if (ID <= Root)
 			{
-				return Header.FixedSize + ((ID - 1) * FixedSizeText());
+				int factor = (ID - 1) * FixedSizeSeek();
+				int ret = Header.FixedSize + factor;
+				return ret;
 			}
 			else
 			{
-				return Header.FixedSize + ((ID - 1) * FixedSizeText()) + FixedSize(Util.NullPointer);
+				return Header.FixedSize + ((ID - 1) * FixedSizeSeek()) + FixedSize(Util.NullPointer);
 			}
 		}
 
@@ -158,8 +181,10 @@ namespace AlmacenEbenEzer.Tree
 		{
 			string values = DataFormat(this.Order);
 			string childrens = ChildrensFormat(this.Order);
-			return $"{ID.ToString("0000000000;-000000000")}" + Util.Separator.ToString() + $"{Father.ToString("0000000000;-000000000")}" + Util.Separator.ToString()
+			string result = $"{ID.ToString("0000000000;-000000000")}" + Util.Separator.ToString() + $"{Father.ToString("0000000000;-000000000")}" + Util.Separator.ToString()
 				+ values + childrens + "\r\n";
+			int length = result.Length;
+			return result;
 		}
 		#endregion
 
@@ -183,7 +208,7 @@ namespace AlmacenEbenEzer.Tree
 				buffer = new byte[node.FixedSize(node.Father)];
 				using (var fs = new FileStream(Path, FileMode.OpenOrCreate))
 				{
-					fs.Seek((HeaderSize + ((Root - 1) * node.FixedSize(node.Father))), SeekOrigin.Begin);
+					fs.Seek((HeaderSize + ((ID - 1) * node.FixedSize(1))), SeekOrigin.Begin);
 					fs.Read(buffer, 0, node.FixedSize(node.Father));
 				}
 			}
@@ -192,7 +217,7 @@ namespace AlmacenEbenEzer.Tree
 				buffer = new byte[node.FixedSize(node.Father)];
 				using (var fs = new FileStream(Path, FileMode.OpenOrCreate))
 				{
-					fs.Seek((HeaderSize + ((Root - 1) * node.FixedSize(node.Father)) + node.FixedSize(Util.NullPointer)), SeekOrigin.Begin);
+					fs.Seek((HeaderSize + ((ID - 1) * node.FixedSize(1)) + node.FixedSize(Util.NullPointer)), SeekOrigin.Begin);
 					fs.Read(buffer, 0, node.FixedSize(node.Father));
 				}
 			}
@@ -238,7 +263,7 @@ namespace AlmacenEbenEzer.Tree
 				//Valores
 				for (int i = StartLimit; i < Values.Length - 1; i++)
 				{
-					node.Children[i] = Convert.ToInt32(Values[i]);
+					node.Children[j] = Convert.ToInt32(Values[i]);
 					j++;
 				}
 			}
@@ -247,20 +272,23 @@ namespace AlmacenEbenEzer.Tree
 			return node;
 		}
 
-		internal void WriteNodeOnDisk(string Path)
+		internal void WriteNodeOnDisk(string Path, int Root)
 		{
 			using (var fs = new FileStream(Path, FileMode.Open))
 			{
-				fs.Seek(SeekPosition(ID), SeekOrigin.Begin);
-				fs.Write(ByteGenerator.ConvertToBytes(ToFixedSizeString()), 0, FixedSizeText());
+				int Pos = SeekPosition(Root);
+				byte[] buffer = ByteGenerator.ConvertToBytes(ToFixedSizeString());
+				int size = FixedSizeText();
+				fs.Seek(Pos, SeekOrigin.Begin);
+				fs.Write(buffer, 0, size);
 			}
 		}
 
-		internal void LimpiarNodo_Disco(string Path, ICreateFixedSizeText<T> createFixedSizeText)
+		internal void LimpiarNodo_Disco(string Path, ICreateFixedSizeText<T> createFixedSizeText, int Root)
 		{
 			ClearNode(createFixedSizeText);
 
-			WriteNodeOnDisk(Path);
+			WriteNodeOnDisk(Path, Root);
 		}
 		#endregion
 

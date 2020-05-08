@@ -37,7 +37,7 @@ namespace AlmacenEbenEzer.Controllers
                 if (buffer[0] == 0)
                 {
                     Data.Instance.sucursalesTree = new Tree.Tree<Sucursal>(
-                    7,
+                    5,
                     basePath + @"sucursales.txt",
                     new CreateSucursal());
                     buffer[0] = 1;
