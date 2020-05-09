@@ -293,9 +293,7 @@ namespace AlmacenEbenEzer.Tree
 					count++;
 				}
 				count = 0;
-				Node<T> newNode = new Node<T>();
-				newNode.Father = nFather.ID;
-				newNode.ID = LastPosition;
+				Node<T> newNode = new Node<T>(this.Order, LastPosition, nFather.ID, createFixedSizeText);
 				newNode.Data = new List<T>();
 				newNode.Children = new List<int>();
 				LastPosition++; // actualizacion de ultima posicion disponible
