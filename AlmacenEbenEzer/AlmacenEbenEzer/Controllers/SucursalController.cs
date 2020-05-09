@@ -100,7 +100,7 @@ namespace AlmacenEbenEzer.Controllers
             if (ModelState.IsValid)
             {
                 //cifrar información                
-                //sucursal.Nombre = Data.Instance.cipherMethods.cipher(sucursal.Nombre);
+                //ssucursal.Nombre = Data.Instance.cipherMethods.cipher(sucursal.Nombre);
                 //sucursal.Direccion = Data.Instance.cipherMethods.cipher(sucursal.Direccion);
 
                 Data.Instance.sucursalesTree.Add(sucursal);
