@@ -1,6 +1,8 @@
-﻿using System;
+﻿using AlmacenEbenEzer.Tree;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace AlmacenEbenEzer
@@ -322,14 +324,27 @@ namespace AlmacenEbenEzer
             return response;
         }
 
-        private char cipherChar(char input)
+        private char cipherChar(byte input)
         {
             List<byte> response = new List<byte>();
             string auxiliar = "";
 
-            string binary = Convert.ToString(input, 2);
-            binary = binary.PadLeft(8, '0');
-            List<byte> sequence = binary.Select(c => Convert.ToByte(c.ToString())).ToList();
+            //string binary = Convert.ToString(input, 2);
+            //binary = binary.PadLeft(8, '0');
+            //List<byte> sequence = binary.Select(c => Convert.ToByte(c.ToString())).ToList();
+            List<byte> sequence = new List<byte>();
+            for (int i = 1; i < 9; i++)
+            {
+                var bit = (input & (1 << i - 1)) != 0;
+                if (bit == true)
+                {
+                    sequence.Add(1);
+                }
+                else
+                {
+                    sequence.Add(0);
+                }
+            }
 
             sequence = IP(sequence);
             sequence = fk(sequence, k1);
@@ -340,17 +355,31 @@ namespace AlmacenEbenEzer
             auxiliar = string.Join("", response);
             int auxInt = Convert.ToInt32(auxiliar, 2);
 
-            return Convert.ToChar((byte)auxInt);
+            char[] ret = Encoding.ASCII.GetChars(new byte[] { (byte)auxInt });
+            return ret[0];
         }
 
-        private char decipherChar(char input)
+        private char decipherChar(byte input)
         {
             List<byte> response = new List<byte>();
             string auxiliar = "";
 
-            string binary = Convert.ToString(input, 2);
-            binary = binary.PadLeft(8, '0');
-            List<byte> sequence = binary.Select(c => Convert.ToByte(c.ToString())).ToList();
+            //string binary = Convert.ToString(input, 2);
+            //binary = binary.PadLeft(8, '0');
+            //List<byte> sequence = binary.Select(c => Convert.ToByte(c.ToString())).ToList();
+            List<byte> sequence = new List<byte>();
+            for (int i = 1; i < 9; i++)
+            {
+                var bit = (input & (1 << i - 1)) != 0;
+                if (bit == true)
+                {
+                    sequence.Add(1);
+                }
+                else
+                {
+                    sequence.Add(0);
+                }
+            }
 
             sequence = IP(sequence);
             sequence = fk(sequence, k2);
@@ -361,16 +390,18 @@ namespace AlmacenEbenEzer
             auxiliar = string.Join("", response);
             int auxInt = Convert.ToInt32(auxiliar, 2);
 
-            return Convert.ToChar((byte)auxInt);
+            char[] ret = Encoding.ASCII.GetChars(new byte[] { (byte)auxInt });
+            return ret[0];
         }
 
         public string cipher(string param)
         {
             string response = "";
+            byte[] plaintext = ByteGenerator.ConvertToBytes(param);
 
-            for (int i = 0; i < param.Length; i++)
+            for (int i = 0; i < plaintext.Length; i++)
             {
-                response += cipherChar(param[i]);
+                response += cipherChar(plaintext[i]);
             }
 
             return response;
@@ -379,10 +410,11 @@ namespace AlmacenEbenEzer
         public string decipher(string param)
         {
             string response = "";
+            byte[] plaintext = ByteGenerator.ConvertToBytes(param);
 
-            for (int i = 0; i < param.Length; i++)
+            for (int i = 0; i < plaintext.Length; i++)
             {
-                response += decipherChar(param[i]);
+                response += decipherChar(plaintext[i]);
             }
 
             return response;
