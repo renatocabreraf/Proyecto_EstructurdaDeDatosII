@@ -8,12 +8,12 @@
 <h2>Productos</h2>
 
 <p>
-    @Html.ActionLink("Agregar producto", "Create")
+    @Html.ActionLink("Agregar Producto a la Lista", "Create")
 </p>
 
 <div>
     <br />
-    <p>Ingresar productos por medio de .CSV</p>
+    <p>Ingresar productos subiendo un archivo CSV (formato: ID,Nombre,Precio)</p>
     @using (Html.BeginForm("addFile", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <input type="file" name="file" class="form-control" />
@@ -51,7 +51,7 @@
                 @Html.DisplayFor(modelItem => item.Precio)
             </td>
             <td>
-                @Html.ActionLink("Actualizar datos", "Edit", new { id = item.ID })
+                @Html.ActionLink("Actualizar Datos de Lista de Productos", "Edit", new { id = item.ID })
             </td>
         </tr>
     }

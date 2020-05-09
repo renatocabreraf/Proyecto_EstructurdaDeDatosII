@@ -1,15 +1,19 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Almacen Eben Ezer";
+
 }
 
+<img src="https://www.avivanuestroscorazones.com/media/filer_public_thumbnails/filer_public/3c/6c/3c6c7858-7802-477a-a936-57a6ad01a414/ebenezer.png__750x0_q85_crop_subsampling-2_upscale.png">
 
-<h2>Configuración del sistema de inventario</h2>
+<h2>Configuración del Sistema de Inventario Almacén Eben Ezer</h2>
+<h3>Aquí puede ingresar, si usted lo desea, la clave para realizar el cifrado. Por defecto ya existe una clave ingresada que solo el usuario maestro conoce.</h3>
+<h4>(la longitud de la clave debe ser de 10 bits)</h4>
 
 <div>
 
     @using (Html.BeginForm("setKey", "Home"))
     {
-        <p>Clave de cifrado</p>
+        <p>Clave de Cifrado</p>
         <input type="password" name="key" class="form-control" />
 
         <br />
@@ -20,7 +24,7 @@
 <br />
 <br />
 
-<h2>Exportar base de datos</h2>
+<h2>Exportar Base de Datos</h2>
 
 <div>
 
@@ -34,4 +38,17 @@
         <input type="submit" value="Exportar" class="btn btn-default" />
     }
 
+</div>
+<br />
+<br />
+
+<h2>Importar Base de Datos</h2>
+
+<div>
+    @using (Html.BeginForm("decompress", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="file" class="form-control" />
+        <br />
+        <input type="submit" value="Importar" class="btn btn-default" />
+    }
 </div>

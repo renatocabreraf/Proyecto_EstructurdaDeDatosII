@@ -21,6 +21,7 @@ namespace AlmacenEbenEzer
 		}
 
 		public SDES cipherMethods = new SDES("");
+		public Huffman compressMethods = new Huffman();
 
 		public Tree<Sucursal> sucursalesTree = new Tree<Sucursal>();
 		public Tree<Producto> productosTree = new Tree<Producto>();
