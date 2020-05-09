@@ -1,3 +1,37 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+
+
+<h2>Configuración del sistema de inventario</h2>
+
+<div>
+
+    @using (Html.BeginForm("setKey", "Home"))
+    {
+        <p>Clave de cifrado</p>
+        <input type="password" name="key" class="form-control" />
+
+        <br />
+        <input type="submit" value="Ingresar" class="btn btn-default" />
+    }
+
+</div>
+<br />
+<br />
+
+<h2>Exportar base de datos</h2>
+
+<div>
+
+    @using (Html.BeginForm("compress", "Home"))
+    {
+        <div>Sucursales @Html.CheckBox("sucursales")</div>
+        <div>Productos @Html.CheckBox("productos")</div>
+        <div>Sucursal-Producto @Html.CheckBox("admin")</div>
+
+        <br />
+        <input type="submit" value="Exportar" class="btn btn-default" />
+    }
+
+</div>
